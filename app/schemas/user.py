@@ -8,7 +8,7 @@ class UserCreate(BaseModel):
 
 class UserLogin(BaseModel):
     email: EmailStr
-    pasword: str
+    password: str
 
 
 class UserResponse(BaseModel):
@@ -17,4 +17,5 @@ class UserResponse(BaseModel):
     password: str
     tickets_ids: list[int]
     is_admin: bool = False
-    concerts_ids: list[int]
+
+    model_config = {"from_attributes": True}

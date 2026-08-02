@@ -17,3 +17,5 @@ class ConcertResponse(BaseModel):
     start_time: datetime
     lasts: time
     place_id: int
+
+    model_config = {"from_attributes": True}

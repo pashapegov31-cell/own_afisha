@@ -9,3 +9,5 @@ class TicketResponse(BaseModel):
     num: int
     concert_id: int
     is_sold: bool = False
+
+    model_config = {"from_attributes": True}
