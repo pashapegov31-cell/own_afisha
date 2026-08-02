@@ -1,9 +1,20 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr
 
 
-class User(BaseModel):
+class UserCreate(BaseModel):
+    email: EmailStr
+    password: str
+
+
+class UserLogin(BaseModel):
+    email: EmailStr
+    pasword: str
+
+
+class UserResponse(BaseModel):
     id: int
-    name: str
+    email: EmailStr
+    password: str
     tickets_ids: list[int]
     is_admin: bool = False
     concerts_ids: list[int]

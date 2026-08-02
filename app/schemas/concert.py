@@ -3,7 +3,13 @@ from datetime import datetime, time
 from pydantic import BaseModel
 
 
-class Concert(BaseModel):
+class ConcertCreate(BaseModel):
+    name: str
+    start_time: datetime
+    lasts: time
+
+
+class ConcertResponse(BaseModel):
     id: int
     name: str
     tickets_count: int
