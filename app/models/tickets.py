@@ -1,6 +1,7 @@
-from app.database import Base
 from sqlalchemy import Boolean, ForeignKey, Integer
 from sqlalchemy.orm import Mapped, mapped_column
+
+from app.database import Base
 
 
 class Tickets(Base):
@@ -8,5 +9,4 @@ class Tickets(Base):
 
     num: Mapped[int] = mapped_column(Integer)
     concert_id: Mapped[int] = mapped_column(ForeignKey("concerts.id"))
-    place_id: Mapped[int] = mapped_column(ForeignKey("places.id"))
     is_sold: Mapped[bool] = mapped_column(Boolean)
