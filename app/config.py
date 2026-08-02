@@ -2,9 +2,9 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
-    DATABASE_URL = "postrgres+aiosync://./afisha.db"
-    SECRET_KEY = "own-afisha-secret-key"
-    ALGORITM = "SH256"
+    DATABASE_URL: str = "sqlite+aiosqlite:///./afisha.db"
+    SECRET_KEY: str = "own-afisha-secret-key"
+    ALGORITM: str = "SH256"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 15
     REFRESH_TOKEN_EXPIRE_DAYS: int = 7
 
