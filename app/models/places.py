@@ -5,7 +5,7 @@ from app.database import Base
 
 
 class Places(Base):
-    __tableename__ = "places"
+    __tablename__ = "places"
 
     id: Mapped[int] = mapped_column(primary_key=True)
     name: Mapped[str] = mapped_column(String(100))
