@@ -8,8 +8,7 @@ class Users(Base):
     __tablename__ = "users"
 
     id: Mapped[int] = mapped_column(primary_key=True)
-    name: Mapped[str] = mapped_column(String(50))
+    email: Mapped[str] = mapped_column(String(50))
     hashed_password: Mapped[str] = mapped_column(Text)
     tickets_ids: Mapped[list[int]] = mapped_column(ForeignKey("tickets.num"))
     is_admin: Mapped[bool] = mapped_column(Boolean)
-    concerts_ids: Mapped[list[int]] = mapped_column(ForeignKey("concerts.id"))

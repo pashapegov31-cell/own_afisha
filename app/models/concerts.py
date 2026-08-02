@@ -1,8 +1,9 @@
 from datetime import datetime, time
 
-from app.database import Base
 from sqlalchemy import DateTime, ForeignKey, Integer, String, Time
 from sqlalchemy.orm import Mapped, mapped_column
+
+from app.database import Base
 
 
 class Concerts(Base):
