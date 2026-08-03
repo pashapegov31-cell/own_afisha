@@ -1,13 +1,13 @@
 import hashlib
 from datetime import datetime, timedelta, timezone
 
-from exceptions import AuthException
 from jose import JWTError, jwt
 from passlib.context import CryptContext
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.config import settings
+from app.exceptions import AuthException
 from app.models.users import Users
 from app.schemas.user import UserCreate, UserLogin
 
@@ -66,8 +66,8 @@ class AuthService:
                 token, settings.SECRET_KEY, algorithms=[settings.ALGORITM]
             )
             return payload
-        except JWTError:
-            raise
+        except JWTError as e:
+            raise AuthException(f"Ошибка: {e}")
 
     @staticmethod
     def hashed_token(token: str):
@@ -85,7 +85,7 @@ class AuthService:
         valid_user = Users(email=new_user.email, password=new_user.password)
         db.add(valid_user)
         await db.commit()
-
+        await db.refresh(valid_user)
         return valid_user
 
     @staticmethod
