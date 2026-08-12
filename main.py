@@ -1,34 +1,26 @@
+from contextlib import asynccontextmanager
+
 from fastapi import FastAPI
-
-from app.authorization import AuthService
-from app.database import async_session, get_by_email, get_by_id, get_db
-from app.schemas.user import UserCreate
-
-app = FastAPI()
+from redis.asyncio import ConnectionPool, Redis
 
 
-@app.get("/")
-async def root():
-    return {"message": "own_afisha"}
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    app.state.redis_pool = ConnectionPool(
+        host="localhost",
+        db=0,
+        port=6379,
+        protocol=2,
+        decode_reaponses=True,
+        max_connections=10,
+    )
+
+    app.state.redis = Redis(connection_pool=app.state.redis_pool)
+
+    yield
+
+    await app.state.redis.close()
+    await app.state.redis_pool.disconnect()
 
 
-@app.get("/users")
-async def get_all_users():
-    return get_db()
-
-
-@app.get("/users/{user_id}")
-async def user_by_id(user_id: int):
-    return get_by_id(id=user_id)
-
-
-@app.get("users/{user_email}")
-async def user_by_email(user_email: str):
-    return get_by_email(email=user_email)
-
-
-@app.put("/auth/{email}/{password}")
-async def create_new_user(email: str, password: str):
-    session = async_session()
-    user = UserCreate(email=email, password=password)
-    await AuthService.create_user(db=session, new_user=user)
+app = FastAPI(lifespan=lifespan)
